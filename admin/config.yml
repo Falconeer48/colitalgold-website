@@ -26,13 +26,16 @@ collections:
         file: "content/benefits.md"
         fields:
           - {label: "Section Title", name: "title", widget: "string", default: "Animal Healing Benefits"}
-          - {label: "Introduction", name: "intro", widget: "markdown"}
-          - {label: "Benefits", name: "benefits", widget: "list", 
+          - {label: "Introduction Text", name: "intro", widget: "markdown"}
+          - {label: "Benefits List", name: "benefits", widget: "list", 
               fields: [
                 {label: "Icon", name: "icon", widget: "string"},
                 {label: "Title", name: "title", widget: "string"},
                 {label: "Description", name: "description", widget: "text"}
               ]}
+          - {label: "Highlight Text (before card)", name: "highlightText", widget: "markdown", required: false}
+          - {label: "Highlight Card Text", name: "highlightCard", widget: "markdown", required: false}
+          - {label: "Closing Text (after card)", name: "closingText", widget: "markdown", required: false}
 
   - name: "contact"
     label: "Contact Information"
@@ -46,16 +49,55 @@ collections:
           - {label: "Email", name: "email", widget: "string", default: "hello@colitasgold.com"}
 
   - name: "products"
-    label: "Products"
+    label: "Products Section"
     files:
       - label: "Product Information"
         name: "products"
         file: "content/products.md"
         fields:
+          - {label: "Section Label", name: "sectionLabel", widget: "string", default: "Our Product"}
           - {label: "Section Title", name: "title", widget: "string", default: "ColitasGold Products"}
-          - {label: "Features", name: "features", widget: "list",
+          - {label: "Product Features", name: "features", widget: "list",
               fields: [
                 {label: "Icon", name: "icon", widget: "string"},
                 {label: "Title", name: "title", widget: "string"},
                 {label: "Description", name: "description", widget: "text"}
               ]}
+
+  - name: "labTesting"
+    label: "Lab Testing Section"
+    files:
+      - label: "Lab Testing Content"
+        name: "labTesting"
+        file: "content/lab-testing.md"
+        fields:
+          - {label: "Main Heading", name: "heading", widget: "string", default: "All our products are laboratory tested at certified and independent laboratories"}
+          - {label: "Description", name: "description", widget: "string", default: "Quality assurance you can trust"}
+          - {label: "Results Section Title", name: "resultsTitle", widget: "string", default: "Laboratory Test Results"}
+          - {label: "Results Introduction", name: "resultsIntro", widget: "text", default: "Download our latest laboratory test results and certificates:"}
+          - {label: "Lab Result Items", name: "results", widget: "list",
+              fields: [
+                {label: "Icon", name: "icon", widget: "string"},
+                {label: "Title", name: "title", widget: "string"},
+                {label: "Description", name: "description", widget: "text"},
+                {label: "PDF File Path", name: "pdfPath", widget: "string"}
+              ]}
+          - {label: "Note", name: "note", widget: "text", required: false}
+
+  - name: "animalDetails"
+    label: "Animal Details Section"
+    files:
+      - label: "Animal Details Content"
+        name: "animalDetails"
+        file: "content/animal-details.md"
+        fields:
+          - {label: "Section Label", name: "sectionLabel", widget: "string", default: "Information"}
+          - {label: "Section Title", name: "title", widget: "string", default: "Additional Animal Use Detail"}
+          - {label: "Detail Cards", name: "detailCards", widget: "list",
+              fields: [
+                {label: "Icon", name: "icon", widget: "string"},
+                {label: "Title", name: "title", widget: "string"},
+                {label: "Content", name: "content", widget: "markdown"}
+              ]}
+          - {label: "Veterinary Note", name: "vetNote", widget: "markdown", required: false}
+          - {label: "CTA Text", name: "ctaText", widget: "text", required: false}
