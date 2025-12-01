@@ -1,0 +1,108 @@
+================================================================================
+Apache Error - Diagnostic Steps
+================================================================================
+
+The Apache service failed to start. Let's diagnose and fix it.
+
+STEP 1: Check the Error Message
+--------------------------------
+
+Run this on your Pi to see the exact error:
+
+    sudo systemctl status apache2.service
+
+Or for more details:
+
+    sudo journalctl -xeu apache2.service | tail -50
+
+
+STEP 2: Check Apache Configuration
+-----------------------------------
+
+Test the Apache configuration:
+
+    sudo apache2ctl configtest
+
+This will show any syntax errors in Apache config files.
+
+
+STEP 3: Common Issues and Fixes
+--------------------------------
+
+A. "Address already in use" (Port 80 conflict)
+   
+   Check what's using port 80:
+   
+       sudo lsof -i :80
+   
+   If another service is using it:
+   - Stop that service, OR
+   - Configure Apache to use a different port
+
+
+B. Configuration syntax error
+   
+   Check for errors:
+   
+       sudo apache2ctl -t
+       sudo apache2ctl configtest
+   
+   Fix any errors shown in the output
+
+
+C. Missing modules
+   
+   Enable required modules:
+   
+       sudo a2enmod rewrite
+       sudo a2enmod headers
+       sudo systemctl restart apache2
+
+
+STEP 4: Check Error Log
+------------------------
+
+View recent errors:
+
+    sudo tail -50 /var/log/apache2/error.log
+
+
+STEP 5: Quick Fix - Restart Clean
+----------------------------------
+
+Try stopping and starting Apache cleanly:
+
+    sudo systemctl stop apache2
+    sudo systemctl start apache2
+    sudo systemctl status apache2
+
+
+STEP 6: Alternative - Use Python Server (Temporary)
+---------------------------------------------------
+
+If Apache is too complex, use Python server temporarily:
+
+    cd /var/www/html/cg
+    sudo python3 -m http.server 8000
+
+Then access at: http://192.168.50.243:8000
+
+
+================================================================================
+Quick Commands to Run (copy/paste these):
+================================================================================
+
+# See the error
+sudo journalctl -xeu apache2.service | tail -30
+
+# Test configuration
+sudo apache2ctl configtest
+
+# Check what's using port 80
+sudo lsof -i :80
+
+# Check error log
+sudo tail -30 /var/log/apache2/error.log
+
+================================================================================
+

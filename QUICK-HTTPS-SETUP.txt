@@ -1,0 +1,80 @@
+================================================================================
+QUICK HTTPS SETUP WITH DUCKDNS
+================================================================================
+
+STEP 1: Set Up DuckDNS Auto-Update
+-----------------------------------
+
+On your Pi:
+
+    mkdir -p ~/duckdns
+    cd ~/duckdns
+    nano duck.sh
+
+Paste (replace YOUR_DOMAIN and YOUR_TOKEN):
+    #!/bin/bash
+    echo url="https://www.duckdns.org/update?domains=YOUR_DOMAIN&token=YOUR_TOKEN&ip=" | curl -k -o ~/duckdns/duck.log -K -
+
+Make executable:
+    chmod +x duck.sh
+    ./duck.sh
+
+Add to crontab:
+    crontab -e
+    Add: */5 * * * * ~/duckdns/duck.sh >/dev/null 2>&1
+
+
+STEP 2: Install Nginx
+---------------------
+
+    sudo apt update
+    sudo apt install -y nginx
+
+
+STEP 3: Configure Nginx
+-----------------------
+
+    sudo nano /etc/nginx/sites-available/colitasgold
+
+Paste (replace YOUR_DOMAIN):
+    server {
+        listen 80;
+        server_name YOUR_DOMAIN.duckdns.org;
+        location / {
+            proxy_pass http://localhost:8081;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+    }
+
+Enable:
+    sudo ln -s /etc/nginx/sites-available/colitasgold /etc/nginx/sites-enabled/
+    sudo rm /etc/nginx/sites-enabled/default
+    sudo nginx -t
+    sudo systemctl restart nginx
+
+
+STEP 4: Forward Ports in Router
+--------------------------------
+
+Forward to your Pi (192.168.50.243):
+    - Port 80 → 80
+    - Port 443 → 443
+
+
+STEP 5: Get SSL Certificate
+---------------------------
+
+    sudo apt install -y certbot python3-certbot-nginx
+    sudo certbot --nginx -d YOUR_DOMAIN.duckdns.org
+
+Follow prompts, choose option 2 (redirect HTTP to HTTPS)
+
+
+DONE!
+-----
+
+Access at: https://YOUR_DOMAIN.duckdns.org/
+
+================================================================================
+

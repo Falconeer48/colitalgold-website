@@ -1,0 +1,75 @@
+================================================================================
+QUICK SETUP INSTRUCTIONS - ColitasGold Website on Raspberry Pi
+Pi IP: 192.168.50.243
+================================================================================
+
+STEP 1: TRANSFER FILES FROM YOUR MAC
+-------------------------------------
+
+Open Terminal on your Mac and run:
+
+    cd "/Volumes/M2 Drive/colitasgold-website"
+    chmod +x DEPLOY-NOW.sh
+    ./DEPLOY-NOW.sh
+
+OR manually:
+
+    scp -r "/Volumes/M2 Drive/colitasgold-website" ian@192.168.50.243:/home/ian/
+
+(Enter your Pi password when prompted)
+
+
+STEP 2: SET UP ON YOUR PI
+--------------------------
+
+SSH into your Pi:
+
+    ssh ian@192.168.50.243
+
+Then run these commands one by one:
+
+    cd ~/colitasgold-website
+    chmod +x setup-on-pi.sh
+    sudo ./setup-on-pi.sh
+
+The script will:
+- Install Apache web server
+- Copy your website files
+- Set correct permissions
+- Start the web server
+
+
+STEP 3: ACCESS YOUR WEBSITE
+----------------------------
+
+Open your browser and go to:
+
+    http://192.168.50.243/colitasgold/
+
+That's it! Your website should now be running.
+
+
+TROUBLESHOOTING
+---------------
+
+If website doesn't load:
+- Check Apache is running: sudo systemctl status apache2
+- Check files exist: ls -la /var/www/html/colitasgold/
+- Open firewall: sudo ufw allow 80
+
+If can't connect to Pi:
+- Make sure Pi is powered on
+- Check Pi is on same network
+- Enable SSH: sudo raspi-config → Interface Options → SSH
+
+
+TO MAKE ACCESSIBLE FROM INTERNET
+---------------------------------
+
+See PI5-SETUP-GUIDE.md for instructions on:
+- Port forwarding
+- Using ngrok
+- Setting up domain name
+
+================================================================================
+

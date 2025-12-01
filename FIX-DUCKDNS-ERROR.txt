@@ -1,0 +1,43 @@
+================================================================================
+FIX DUCKDNS ERROR
+================================================================================
+
+ISSUE FOUND:
+1. Domain typo: "colitalgold" should be "colitasgold" (missing 's')
+2. Extra "=" at end of token URL
+
+CORRECT COMMAND:
+================================================================================
+
+Test with correct domain name:
+
+curl "https://www.duckdns.org/update?domains=colitasgold&token=b3d36a03-20e4-47dc-9096-f8cb7d9d5fe4&ip="
+
+Note: 
+- Domain: colitasgold (with 's')
+- Token: b3d36a03-20e4-47dc-9096-f8cb7d9d5fe4 (NO = at end)
+
+================================================================================
+
+UPDATE YOUR duck.sh SCRIPT:
+================================================================================
+
+cd ~/duckdns
+nano duck.sh
+
+Replace with:
+
+#!/bin/bash
+echo url="https://www.duckdns.org/update?domains=colitasgold&token=b3d36a03-20e4-47dc-9096-f8cb7d9d5fe4&ip=" | curl -k -o ~/duckdns/duck.log -K -
+
+Save (Ctrl+X, Y, Enter)
+
+Then test:
+chmod +x duck.sh
+./duck.sh
+cat duck.log
+
+Should say: OK
+
+================================================================================
+

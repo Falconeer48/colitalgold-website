@@ -1,0 +1,61 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  - name: "hero"
+    label: "Hero Section"
+    files:
+      - label: "Hero Content"
+        name: "hero"
+        file: "content/hero.md"
+        fields:
+          - {label: "Title", name: "title", widget: "string", default: "ColitasGold"}
+          - {label: "Tagline", name: "tagline", widget: "string", default: "Made by Vets for Vets"}
+          - {label: "Subtitle", name: "subtitle", widget: "string", default: "Cold Processed, Full Extract Cannabis Oil (F.E.C.O)"}
+          - {label: "Button Text", name: "buttonText", widget: "string", default: "Learn More"}
+
+  - name: "benefits"
+    label: "Benefits Section"
+    files:
+      - label: "Benefits Content"
+        name: "benefits"
+        file: "content/benefits.md"
+        fields:
+          - {label: "Section Title", name: "title", widget: "string", default: "Animal Healing Benefits"}
+          - {label: "Introduction", name: "intro", widget: "markdown"}
+          - {label: "Benefits", name: "benefits", widget: "list", 
+              fields: [
+                {label: "Icon", name: "icon", widget: "string"},
+                {label: "Title", name: "title", widget: "string"},
+                {label: "Description", name: "description", widget: "text"}
+              ]}
+
+  - name: "contact"
+    label: "Contact Information"
+    files:
+      - label: "Contact Details"
+        name: "contact"
+        file: "content/contact.md"
+        fields:
+          - {label: "Website URL", name: "website", widget: "string", default: "www.colitasgold.com"}
+          - {label: "WhatsApp", name: "whatsapp", widget: "string", default: "082 8891279"}
+          - {label: "Email", name: "email", widget: "string", default: "hello@colitasgold.com"}
+
+  - name: "products"
+    label: "Products"
+    files:
+      - label: "Product Information"
+        name: "products"
+        file: "content/products.md"
+        fields:
+          - {label: "Section Title", name: "title", widget: "string", default: "ColitasGold Products"}
+          - {label: "Features", name: "features", widget: "list",
+              fields: [
+                {label: "Icon", name: "icon", widget: "string"},
+                {label: "Title", name: "title", widget: "string"},
+                {label: "Description", name: "description", widget: "text"}
+              ]}

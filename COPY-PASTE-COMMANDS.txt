@@ -1,0 +1,47 @@
+================================================================================
+COPY AND PASTE THESE COMMANDS INTO YOUR PI SSH SESSION
+================================================================================
+
+Once you SSH into your Pi, copy and paste this entire block of commands:
+
+-----------------------------------------------------------------------------
+
+DOMAIN="colitasgold.duckdns.org"
+
+echo "Configuring Nginx..."
+sudo tee /etc/nginx/sites-available/colitasgold > /dev/null <<'NGINXEOF'
+server {
+    listen 80;
+    server_name colitasgold.duckdns.org;
+    location / {
+        proxy_pass http://localhost:8081;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+NGINXEOF
+
+sudo ln -sf /etc/nginx/sites-available/colitasgold /etc/nginx/sites-enabled/
+sudo rm -f /etc/nginx/sites-enabled/default
+sudo nginx -t && sudo systemctl restart nginx
+echo "✓ Nginx configured"
+
+echo "Installing Certbot..."
+sudo apt update -qq && sudo apt install -y certbot python3-certbot-nginx -qq
+echo "✓ Certbot installed"
+
+echo "Getting SSL certificate..."
+sudo certbot --nginx -d colitasgold.duckdns.org --non-interactive --agree-tos --email admin@colitasgold.duckdns.org --redirect
+
+echo ""
+echo "✓ Done! Access at: https://colitasgold.duckdns.org/"
+
+-----------------------------------------------------------------------------
+
+That's it! Just copy everything between the dashed lines above and paste into
+your Pi SSH session.
+
+================================================================================
+
