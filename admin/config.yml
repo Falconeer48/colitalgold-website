@@ -1,6 +1,5 @@
 backend:
-  name: github
-  repo: Falconeer48/colitalgold-website
+  name: git-gateway
   branch: main
 
 media_folder: "images"
